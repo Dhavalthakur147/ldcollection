@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Order history</h2>
+        <p>Track your previous purchases.</p>
+    </div>
+
+    {% if orders %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.total_amount|inr }}</td>
+                    <td>{{ order.created_at }}</td>
+                    <td>
+                        <a class="link" href="{{ url_for('order_confirmation', order_id=order.id) }}">View details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>You have not placed any orders yet.</p>
+        <a class="btn" href="{{ url_for('products') }}">Start shopping</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

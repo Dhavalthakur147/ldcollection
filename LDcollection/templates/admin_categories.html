@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Manage categories</h2>
+        <p>Create and maintain product categories.</p>
+    </div>
+
+    <form class="admin-form compact" method="post" action="{{ url_for('admin_add_category') }}">
+        <div class="form-group">
+            <label class="label" for="name">Category name</label>
+            <input class="input" id="name" name="name" placeholder="Example: Shirts" required>
+        </div>
+        <button class="btn" type="submit">Add category</button>
+    </form>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Category list</h2>
+    </div>
+    {% if categories %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.slug }}</td>
+                    <td>{{ category.created_at }}</td>
+                    <td class="actions">
+                        <a class="link" href="{{ url_for('admin_edit_category', category_id=category.id) }}">Edit</a>
+                        <form method="post" action="{{ url_for('admin_delete_category', category_id=category.id) }}" class="inline-form">
+                            <button type="submit" class="link danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="muted">No categories yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

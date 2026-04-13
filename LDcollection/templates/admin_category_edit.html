@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Edit category</h2>
+        <p>Update category details used in products.</p>
+    </div>
+
+    <form class="admin-form compact" method="post">
+        <div class="form-group">
+            <label class="label" for="name">Category name</label>
+            <input class="input" id="name" name="name" value="{{ category.name }}" required>
+        </div>
+        <div class="admin-actions">
+            <button class="btn" type="submit">Save category</button>
+            <a class="btn btn-secondary" href="{{ url_for('admin_categories') }}">Back to categories</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

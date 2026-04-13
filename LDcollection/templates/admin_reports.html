@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Reports</h2>
+        <p>Business summary, sales trends, and top products.</p>
+    </div>
+
+    <div class="admin-stats">
+        <article class="stat-card">
+            <p class="muted">Total orders</p>
+            <h3>{{ summary.total_orders }}</h3>
+        </article>
+        <article class="stat-card">
+            <p class="muted">Pending orders</p>
+            <h3>{{ summary.pending_orders }}</h3>
+        </article>
+        <article class="stat-card">
+            <p class="muted">Delivered orders</p>
+            <h3>{{ summary.delivered_orders }}</h3>
+        </article>
+        <article class="stat-card">
+            <p class="muted">Total revenue</p>
+            <h3>{{ summary.total_revenue|inr }}</h3>
+        </article>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Monthly sales (last 6 months)</h2>
+    </div>
+    {% if monthly_sales %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Orders</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in monthly_sales %}
+                <tr>
+                    <td>{{ row.month }}</td>
+                    <td>{{ row.orders_count }}</td>
+                    <td>{{ row.revenue|inr }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="muted">No sales data available yet.</p>
+    {% endif %}
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Top products</h2>
+    </div>
+    {% if top_products %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Units sold</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in top_products %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity_sold }}</td>
+                    <td>{{ item.revenue|inr }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="muted">No product sales data available yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

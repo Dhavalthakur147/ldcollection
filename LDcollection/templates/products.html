@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Shop all</h2>
+        <p>Everyday essentials with a clean edge.</p>
+    </div>
+
+    <div class="grid">
+        {% for product in products %}
+        <article class="card">
+            <div class="card-media">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            </div>
+            <div class="card-body">
+                <h3>{{ product.name }}</h3>
+                <p class="muted">{{ product.category }}</p>
+                <p class="price">{{ product.price|inr }}</p>
+                <a class="link" href="{{ url_for('product_detail', product_id=product.id) }}">View product</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

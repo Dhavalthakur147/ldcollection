@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LDcollection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <a class="brand" href="{{ url_for('index') }}">LDcollection</a>
+            <nav class="nav">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('products') }}">Shop</a>
+                <a href="{{ url_for('view_cart') }}">Cart ({{ cart_count }})</a>
+                {% if user_logged_in %}
+                <a href="{{ url_for('profile') }}" class="profile-icon-link" title="My Profile">
+                    {% if user_profile_image %}
+                    <img src="{{ user_profile_image }}" alt="{{ user_name }}" class="profile-icon">
+                    {% else %}
+                    <span class="profile-icon-fallback">{{ (user_name or 'U')[0]|upper }}</span>
+                    {% endif %}
+                </a>
+                <a href="{{ url_for('order_history') }}">My Orders</a>
+                <form method="post" action="{{ url_for('user_logout') }}" class="inline-form">
+                    <button type="submit" class="link-button">Logout</button>
+                </form>
+                {% else %}
+                <a href="{{ url_for('user_login') }}">Login</a>
+                <a href="{{ url_for('user_register') }}">Register</a>
+                {% endif %}
+                {% if admin_logged_in %}
+                <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+                <form method="post" action="{{ url_for('admin_logout') }}" class="inline-form">
+                    <button type="submit" class="link-button">Logout ({{ admin_username }})</button>
+                </form>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash">
+            {% for category, message in messages %}
+            <div class="flash-item flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>Simple fashion store demo. Built with Flask and MySQL.</p>
+        </div>
+    </footer>
+</body>
+</html>

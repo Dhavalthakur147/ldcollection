@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Your cart</h2>
+        <p>Ready when you are.</p>
+    </div>
+
+    {% if items %}
+    <div class="cart">
+        <div class="cart-items">
+            {% for item in items %}
+            <div class="cart-row">
+                <div>
+                    <h3>{{ item.product.name }}</h3>
+                    <p class="muted">{{ item.product.category }}</p>
+                </div>
+                <div class="cart-meta">
+                    <span>Qty: {{ item.quantity }}</span>
+                    <span>{{ (item.product.price * item.quantity)|inr }}</span>
+                    <form method="post" action="{{ url_for('remove_from_cart', product_id=item.product.id) }}">
+                        <button class="link danger" type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="cart-summary">
+            <h3>Order summary</h3>
+            <div class="summary-row">
+                <span>Total</span>
+                <strong>{{ total|inr }}</strong>
+            </div>
+            <a class="btn" href="{{ url_for('checkout') }}">Checkout</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>Your cart is empty.</p>
+        <a class="btn" href="{{ url_for('products') }}">Browse products</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Manage products</h2>
+        <p>Add, update, and delete products including images.</p>
+    </div>
+
+    <form class="admin-form" method="post" action="{{ url_for('admin_add_product') }}" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="label" for="name">Name</label>
+                <input class="input" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label class="label" for="category">Category</label>
+                <select class="input" id="category" name="category">
+                    <option value="">Select category</option>
+                    {% for category in categories %}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label" for="category_custom">Or add new category</label>
+            <input class="input" id="category_custom" name="category_custom" placeholder="Example: Ethnic Wear">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="label" for="price">Price</label>
+                <input class="input" id="price" name="price" type="number" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label class="label" for="stock">Stock</label>
+                <input class="input" id="stock" name="stock" type="number" min="0" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="label" for="description">Description</label>
+            <textarea class="input textarea" id="description" name="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="label" for="image_url">Image URL (optional)</label>
+                <input class="input" id="image_url" name="image_url" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="form-group">
+                <label class="label" for="image_file">Upload image (optional)</label>
+                <input class="input" id="image_file" name="image_file" type="file" accept=".png,.jpg,.jpeg,.webp,.gif">
+            </div>
+        </div>
+
+        <button class="btn" type="submit">Add product</button>
+    </form>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Product list</h2>
+    </div>
+    {% if products %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <img class="thumb" src="{{ product.image_url or 'https://via.placeholder.com/300x400?text=Product' }}" alt="{{ product.name }}">
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.price|inr }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td class="actions">
+                        <a class="link" href="{{ url_for('admin_edit_product', product_id=product.id) }}">Edit</a>
+                        <form method="post" action="{{ url_for('admin_delete_product', product_id=product.id) }}" class="inline-form">
+                            <button type="submit" class="link danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="muted">No products found.</p>
+    {% endif %}
+</section>
+{% endblock %}

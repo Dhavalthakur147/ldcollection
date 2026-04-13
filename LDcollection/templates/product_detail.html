@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="product">
+    <div class="product-media">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+    </div>
+    <div class="product-info">
+        <p class="eyebrow">{{ product.category }}</p>
+        <h1>{{ product.name }}</h1>
+        <p class="price">{{ product.price|inr }}</p>
+        <p class="muted">{{ product.description }}</p>
+
+        <form class="product-form" method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+            <label class="label" for="quantity">Quantity</label>
+            <input class="input" type="number" name="quantity" id="quantity" min="1" value="1">
+            <button class="btn" type="submit">Add to cart</button>
+        </form>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>More like this</h2>
+    </div>
+    <div class="grid">
+        {% for item in related_products %}
+        <article class="card">
+            <div class="card-media">
+                <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            </div>
+            <div class="card-body">
+                <h3>{{ item.name }}</h3>
+                <p class="muted">{{ item.category }}</p>
+                <p class="price">{{ item.price|inr }}</p>
+                <a class="link" href="{{ url_for('product_detail', product_id=item.id) }}">View product</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

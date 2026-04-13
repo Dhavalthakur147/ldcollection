@@ -1,0 +1,100 @@
+# Quick Database Setup - 3 Steps
+
+## STEP 1: Start MySQL Server
+
+### Windows
+- Open Services (press Windows+R, type `services.msc`)
+- Find "MySQL80" (or your version)
+- Right-click → Start
+
+### macOS
+```bash
+brew services start mysql
+```
+
+### Linux
+```bash
+sudo systemctl start mysql
+```
+
+---
+
+## STEP 2: Run Setup Script
+
+### Windows
+**Double-click:** `setup_database.bat`
+
+### macOS/Linux
+```bash
+chmod +x setup_database.sh
+./setup_database.sh
+```
+
+---
+
+## STEP 3: Start Your App
+
+```bash
+python app.py
+```
+
+Then go to: **http://localhost:5000**
+
+---
+
+## That's It! 🎉
+
+Your database is ready to use!
+
+---
+
+## Troubleshooting
+
+### MySQL won't start?
+- Check if MySQL is installed
+- Try: `mysql -u root -p` 
+- If fails, MySQL not running
+
+### Setup script fails?
+- Make sure MySQL is running first
+- Check .env file has correct credentials
+- Try manual setup in DATABASE_SETUP.md
+
+### Can't connect to database?
+- Verify MySQL running: `mysql -u root -p -e "SELECT VERSION();"`
+- Update .env with correct credentials
+- Check MYSQL_HOST and MYSQL_PORT in .env
+
+---
+
+## Manual Setup (Alternative)
+
+If scripts don't work:
+
+```bash
+# Start MySQL and create database
+mysql -u root -p
+
+# In MySQL, run:
+CREATE DATABASE ldcollection CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+
+# Then run Python setup
+python3 setup_database.py
+```
+
+---
+
+## Verify It Works
+
+```bash
+# Check tables created
+mysql -u root -p ldcollection -e "SHOW TABLES;"
+
+# Should show 6 tables:
+# cart, cart_item, order, order_item, product, user
+```
+
+---
+
+For detailed help, see: **DATABASE_SETUP.md**

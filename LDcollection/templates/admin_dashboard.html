@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h2>Admin dashboard</h2>
+        <p>Manage store activity, products, and users.</p>
+    </div>
+
+    <div class="admin-stats">
+        <article class="stat-card">
+            <p class="muted">Total products</p>
+            <h3>{{ stats.total_products }}</h3>
+        </article>
+        <article class="stat-card">
+            <p class="muted">Total orders</p>
+            <h3>{{ stats.total_orders }}</h3>
+        </article>
+        <article class="stat-card">
+            <p class="muted">Total revenue</p>
+            <h3>{{ stats.total_revenue|inr }}</h3>
+        </article>
+    </div>
+
+    <div class="admin-actions">
+        <a class="btn" href="{{ url_for('admin_products') }}">Manage products</a>
+        <a class="btn btn-secondary" href="{{ url_for('admin_categories') }}">Manage categories</a>
+        <a class="btn btn-secondary" href="{{ url_for('admin_orders') }}">Manage orders</a>
+        <a class="btn btn-secondary" href="{{ url_for('admin_users') }}">Manage users</a>
+        <a class="btn btn-secondary" href="{{ url_for('admin_reports') }}">Reports</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Recent orders</h2>
+    </div>
+    {% if orders %}
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.total_amount|inr }}</td>
+                    <td>{{ order.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="muted">No orders yet.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

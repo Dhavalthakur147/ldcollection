@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-shell">
+        <div class="auth-top-strip"></div>
+        <div class="section-header auth-header">
+            <p class="auth-eyebrow">Welcome back</p>
+            <h2>User login</h2>
+            <p class="auth-subtext">Sign in to continue shopping with your account.</p>
+        </div>
+
+        <form class="auth-form login-form" method="post">
+            <div class="form-group">
+                <label class="label" for="email">Email</label>
+                <div class="input-wrap">
+                    <span class="input-mark">@</span>
+                    <input class="input auth-input" id="email" name="email" type="email" placeholder="you@example.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label" for="password">Password</label>
+                <div class="input-wrap">
+                    <span class="input-mark">#</span>
+                    <input class="input auth-input" id="password" name="password" type="password" placeholder="Enter your password" required>
+                </div>
+            </div>
+            <button class="btn auth-btn" type="submit">Login</button>
+        </form>
+
+        <p class="auth-switch">
+            New here? <a class="link" href="{{ url_for('user_register') }}">Create account</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

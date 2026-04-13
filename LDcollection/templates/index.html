@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="market-topbar">
+    <div class="market-chip">Free delivery above Rs. 999</div>
+    <div class="market-chip">COD available in India</div>
+    <div class="market-chip">7-day easy returns</div>
+</section>
+
+<section class="market-hero">
+    <article class="market-main-banner">
+        <div class="market-main-banner-copy">
+            <p class="market-kicker">Mega style week</p>
+            <h1>Deals that feel like a festival sale, every day.</h1>
+            <p>Top fashion picks, daily drops, and unbeatable value curated for Indian shoppers.</p>
+            <div class="market-hero-actions">
+                <a class="btn" href="{{ url_for('products') }}">Shop all deals</a>
+                <a class="btn btn-secondary" href="{{ url_for('view_cart') }}">Go to cart</a>
+            </div>
+        </div>
+        <img class="market-main-banner-image" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop" alt="Fashion shopping banner">
+    </article>
+
+    <div class="market-side-banners">
+        <article class="market-side-card">
+            <p class="market-kicker">Top rated</p>
+            <h3>Everyday essentials</h3>
+            <p>Shirts, denims and layers under great prices.</p>
+        </article>
+        <article class="market-side-card">
+            <p class="market-kicker">New arrivals</p>
+            <h3>Fresh drops</h3>
+            <p>New styles added daily for men and women.</p>
+        </article>
+    </div>
+</section>
+
+<section class="market-banner-strip">
+    <a class="market-banner-card" href="{{ url_for('products') }}">
+        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200&auto=format&fit=crop" alt="New season collection banner">
+        <div class="market-banner-overlay">
+            <h3>New Season Collection</h3>
+            <p>Fresh looks just dropped</p>
+        </div>
+    </a>
+    <a class="market-banner-card" href="{{ url_for('products') }}">
+        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop" alt="Big sale banner">
+        <div class="market-banner-overlay">
+            <h3>Big Savings Week</h3>
+            <p>Up to 60% off on top styles</p>
+        </div>
+    </a>
+</section>
+
+<section class="market-categories section">
+    <div class="section-header">
+        <h2>Shop by category</h2>
+    </div>
+    <div class="market-category-row">
+        {% for product in products %}
+        <a class="market-category-pill" href="{{ url_for('products') }}">{{ product.category }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+{% if products %}
+<section class="section">
+    <div class="section-header">
+        <h2>Today's spotlight deals</h2>
+        <p>Grab these fast-moving picks before stock runs out.</p>
+    </div>
+
+    <div class="market-deals-grid">
+        {% for product in products[:4] %}
+        <article class="market-deal-card">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            <div class="market-deal-info">
+                <p class="muted">{{ product.category }}</p>
+                <h3>{{ product.name }}</h3>
+                <p class="price">{{ product.price|inr }}</p>
+                <a class="link" href="{{ url_for('product_detail', product_id=product.id) }}">View deal</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="section-header">
+        <h2>Recommended for you</h2>
+        <p>Popular picks inspired by major marketplace shopping trends.</p>
+    </div>
+
+    <div class="market-product-grid">
+        {% for product in products %}
+        <article class="market-product-card">
+            <a class="market-product-media" href="{{ url_for('product_detail', product_id=product.id) }}">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            </a>
+            <div class="market-product-body">
+                <p class="market-rating">4.3 | 2,1{{ loop.index }} ratings</p>
+                <h3>{{ product.name }}</h3>
+                <p class="muted">{{ product.category }}</p>
+                <p class="price">{{ product.price|inr }}</p>
+                <div class="market-card-actions">
+                    <a class="link" href="{{ url_for('product_detail', product_id=product.id) }}">View</a>
+                    <form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+                        <button class="btn btn-sm" type="submit">Add</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="market-bottom-banner">
+    <div>
+        <p class="market-kicker">Trusted shopping</p>
+        <h3>Safe checkout, easy return, quick support.</h3>
+        <p>Built for Indian online shoppers looking for speed, value and confidence.</p>
+    </div>
+    <a class="btn" href="{{ url_for('products') }}">Continue shopping</a>
+</section>
+{% endblock %}
+

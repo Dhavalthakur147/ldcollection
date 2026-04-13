@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="register-shell">
+        <aside class="register-visual">
+            <p class="auth-eyebrow">LDcollection</p>
+            <h2>Build your style profile</h2>
+            <p>Join now to track orders, speed up checkout, and get first access to fresh drops.</p>
+            <ul class="register-points">
+                <li>Fast checkout with saved details</li>
+                <li>Order tracking in one place</li>
+                <li>Exclusive launch access</li>
+            </ul>
+        </aside>
+
+        <div class="auth-shell register-form-shell">
+            <div class="auth-top-strip"></div>
+            <div class="section-header auth-header register-header">
+                <p class="auth-eyebrow">Create account</p>
+                <h2>User registration</h2>
+                <p class="auth-subtext">Start your account in less than a minute.</p>
+            </div>
+
+            <form class="auth-form" method="post">
+                <div class="auth-grid">
+                    <div class="form-group">
+                        <label class="label" for="full_name">Full name</label>
+                        <input class="input auth-input" id="full_name" name="full_name" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="email">Email</label>
+                        <input class="input auth-input" id="email" name="email" type="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="password">Password</label>
+                        <input class="input auth-input" id="password" name="password" type="password" minlength="6" placeholder="Minimum 6 characters" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="confirm_password">Confirm password</label>
+                        <input class="input auth-input" id="confirm_password" name="confirm_password" type="password" minlength="6" placeholder="Re-enter password" required>
+                    </div>
+                </div>
+                <button class="btn auth-btn" type="submit">Create account</button>
+            </form>
+
+            <p class="auth-switch">
+                Already have an account? <a class="link" href="{{ url_for('user_login') }}">Login</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

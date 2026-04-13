@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="profile-page">
+    <aside class="profile-summary">
+        {% if user.profile_image %}
+        <img src="{{ user.profile_image }}" alt="{{ user.full_name }}" class="profile-avatar profile-summary-avatar">
+        {% else %}
+        <span class="profile-avatar-fallback profile-summary-avatar">{{ (user.full_name or 'U')[0]|upper }}</span>
+        {% endif %}
+        <p class="auth-eyebrow">Account</p>
+        <h2>{{ user.full_name }}</h2>
+        <p class="muted">{{ user.email }}</p>
+        <div class="profile-chip">Member since {{ user.created_at }}</div>
+        <p class="profile-note">Keep your profile updated for faster checkout and order communication.</p>
+    </aside>
+
+    <div class="profile-editor">
+        <div class="section-header profile-header">
+            <h2>My profile</h2>
+            <p>Manage your account details and password.</p>
+        </div>
+
+        <form class="auth-form profile-form" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="label" for="profile_image">Profile image</label>
+                <div class="profile-upload-row">
+                    {% if user.profile_image %}
+                    <img src="{{ user.profile_image }}" alt="{{ user.full_name }}" class="profile-avatar">
+                    {% else %}
+                    <span class="profile-avatar-fallback">{{ (user.full_name or 'U')[0]|upper }}</span>
+                    {% endif %}
+                    <input class="input" id="profile_image" name="profile_image" type="file" accept=".png,.jpg,.jpeg,.webp,.gif">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="label" for="full_name">Full name</label>
+                    <input class="input auth-input" id="full_name" name="full_name" value="{{ user.full_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="email">Email</label>
+                    <input class="input auth-input" id="email" name="email" type="email" value="{{ user.email }}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label" for="password">New password (optional)</label>
+                <input class="input auth-input" id="password" name="password" type="password" minlength="6" placeholder="Leave blank to keep current password">
+            </div>
+            <button class="btn auth-btn" type="submit">Update profile</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
